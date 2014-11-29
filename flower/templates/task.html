@@ -10,12 +10,16 @@
       <div class="span12">
         <div class="page-header">
           <p id="taskid" class="hidden">{{ task.uuid }}</p>
+          <p id="args" class="hidden">{{ task.args }}</p>
+          <p id="kwargs" class="hidden">{{ task.uuid }}</p>
           <h2>{{ getattr(task, 'name', None) }}
             <small>{{ task.uuid }}</small>
             {% if task.state == "STARTED" %}
                 <button style="float: right" class="btn btn-danger" onclick="flower.on_task_terminate(event)">Terminate</button>
             {% elif task.state == "RECEIVED" or task.state == "RETRY" %}
                 <button  style="float: right" class="btn btn-danger" onclick="flower.on_task_revoke(event)">Revoke</button>
+            {% elif task.state == "FAILURE" %}
+                <button  style="float: right" class="btn btn-danger" onclick="flower.on_task_submit(event)">Submit Again</button>
             {% end %}
           </h2>
         </div>

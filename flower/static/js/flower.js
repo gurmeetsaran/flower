@@ -314,6 +314,30 @@ var flower = (function () {
         });
     }
 
+    function on_task_submit(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        var taskid = $('#taskid').text();
+        var args = $('#args').text();
+        var kwargs = $('#kwargs').text();
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/task/async-apply/el2.tasks.TaskMul',
+            dataType: 'json',
+            data: {
+                'args': args,
+            },
+            success: function (data) {
+                show_success_alert(data.message);
+            },
+            error: function (data) {
+                show_error_alert(data.responseText);
+            }
+        });
+    }
+
     function on_task_terminate(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -634,6 +658,7 @@ var flower = (function () {
         on_cancel_task_filter: on_cancel_task_filter,
         on_task_revoke: on_task_revoke,
         on_task_terminate: on_task_terminate,
+        on_task_submit: on_task_submit
     };
 
 }(jQuery));
