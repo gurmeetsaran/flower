@@ -320,7 +320,8 @@ var flower = (function () {
 
         var taskname = $('#taskname').text();
         var taskargs = $('#taskargs').text().replace('(','[').replace(')',']').replace(/'/g,'"').replace(/u"/g,'"');
-        var taskkwargs = $('#taskkwargs').text();
+        var taskkwargs = $('#taskkwargs').text().replace(/'/g,'"').replace(/u"/g,'"');
+        var data = '{"args":' + taskargs + ', "kwargs":' + taskkwargs + '}';
 
         $.ajax({
             type: 'POST',
