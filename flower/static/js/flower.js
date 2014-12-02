@@ -319,8 +319,7 @@ var flower = (function () {
         event.stopPropagation();
 
         var taskname = $('#taskname').text();
-        #var taskargs = $('#taskargs').text().replace('(','[').replace(')',']').replace(/'/g,'"').replace(/u"/g,'"');
-        var taskargs = $('#taskargs').text().replace('(','[').replace(')',']').replace(/'|u"/g,'"');
+        var taskargs = $('#taskargs').text().replace('(','[').replace(')',']').replace(/'/g,'"').replace(/u"/g,'"');
         var taskkwargs = $('#taskkwargs').text();
 
         $.ajax({
