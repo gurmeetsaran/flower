@@ -314,26 +314,26 @@ var flower = (function () {
         });
     }
 
-    function on_task_submit(event) {
+    function on_task_requeue(event) {
         event.preventDefault();
         event.stopPropagation();
 
-        var taskid = $('#taskid').text();
-        var args = $('#args').text();
-        var kwargs = $('#kwargs').text();
+        var taskname = $('#taskname').text();
+        var taskargs = $('#taskargs').text().replace('(','[').replace(')',']').replace(/'/g,'"').replace(/u"/g,'"');
+        var taskkwargs = $('#taskkwargs').text();
 
         $.ajax({
             type: 'POST',
-            url: '/api/task/async-apply/el2.tasks.TaskMul',
+            url: '/api/task/async-apply/' + taskname,
             dataType: 'json',
-            data: {
-                'args': args,
-            },
+            data: '{"args":' + taskargs + ', "kwargs":' + taskkwargs + '}',
             success: function (data) {
-                show_success_alert(data.message);
+                var message = 'Requeued UUID: ' + data['task-id']
+                show_success_alert(message);
             },
             error: function (data) {
-                show_error_alert(data.responseText);
+                show_error_alert('Cannot enqueue task. In addition to broker, is Flower configured with correct ' +
+                    'Celery app/task config (e.g. --app or CELERY_APP)?');
             }
         });
     }
@@ -658,7 +658,7 @@ var flower = (function () {
         on_cancel_task_filter: on_cancel_task_filter,
         on_task_revoke: on_task_revoke,
         on_task_terminate: on_task_terminate,
-        on_task_submit: on_task_submit
+        on_task_requeue: on_task_requeue
     };
 
 }(jQuery));
